@@ -10,6 +10,7 @@ import { LoggerFactory } from './src/LoggerFactory';
 		port:    Config.PORT,
 		baseUrl: Config.BASE_URL,
 		apiKey:  Config.API_KEY,
+		cmcBaseUrl: Config.CMC_BASE_URL,
 	};
 
 	const logger = new LoggerFactory().createLogger();

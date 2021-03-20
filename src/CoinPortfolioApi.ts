@@ -67,7 +67,7 @@ export class CoinPortfolioApi {
 			throw error;
 		}
 
-		await new CoinRoutes(new CoinController(new CoinService()), this.config.baseUrl, this.config.apiKey, this.hapiErrorCatcher, this.hapiResponse).register(server);
+		await new CoinRoutes(new CoinController(new CoinService(this.config.cmcBaseUrl, this.config.apiKey)), this.config.baseUrl, this.hapiErrorCatcher, this.hapiResponse).register(server);
 
 		return server;
 	}
@@ -79,4 +79,5 @@ export interface CoinPortfolioApiConfig {
 	port: string;
 	baseUrl: string;
 	apiKey: string;
+	cmcBaseUrl: string;
 }
