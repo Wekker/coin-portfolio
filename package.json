@@ -1,0 +1,33 @@
+{
+  "name": "coin-portfolio",
+  "version": "1.0.0",
+  "description": "coin-portfolio",
+  "main": "./dist/index.js",
+  "scripts": {
+    "start": "npm run clean && npm run build && npm run sprint",
+    "sprint": "node $NODE_DEBUG_OPTION dist/index.js",
+    "build": "tsc",
+    "clean": "rimraf ./dist/"
+  },
+  "author": "Wekker",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/boom": "^9.1.2",
+    "@hapi/hapi": "^20.1.1",
+    "@hapi/inert": "^6.0.3",
+    "@hapi/joi": "^17.1.1",
+    "@hapi/vision": "^6.0.1",
+    "@types/hapi__boom": "^9.0.1",
+    "@types/hapi__hapi": "^20.0.5",
+    "@types/hapi__inert": "^5.2.2",
+    "@types/hapi__joi": "^17.1.6",
+    "@types/hapi__vision": "^5.5.2",
+    "@types/node": "^14.14.35",
+    "hapi-swagger": "^14.1.0",
+    "typescript": "^4.2.3",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.22.0"
+  }
+}

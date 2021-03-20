@@ -1,0 +1,17 @@
+/# IDE
+.idea/*
+
+/# node modules
+node_modules/*
+
+/# generated
+dist/*
+
+/# js files
+index.js*
+
+/# local testing log files
+error.log
+
+/# local test database directory
+local_database
