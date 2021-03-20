@@ -3,46 +3,62 @@ import { catchHapiRouteError, httpResponseToHapiResponse } from './httpResponse'
 import * as hapi from '@hapi/hapi';
 import { ServerRoute } from '@hapi/hapi';
 import * as joi from '@hapi/joi';
+import axios from 'axios';
+import { CoinService } from './CoinService';
 
 export class CoinRoutes {
 
+	private readonly coinService: CoinService;
 	private readonly baseUrl: string;
 	private readonly hapiErrorCatcher: ReturnType<typeof catchHapiRouteError>;
 	private readonly hapiResponse: ReturnType<typeof httpResponseToHapiResponse>;
+	private readonly apiKey: string;
 
-	public constructor(baseUrl: string, hapiErrorCatcher: ReturnType<typeof catchHapiRouteError>, hapiResponse: ReturnType<typeof httpResponseToHapiResponse>) {
+	public constructor(coinService: CoinService, baseUrl: string, apiKey: string, hapiErrorCatcher: ReturnType<typeof catchHapiRouteError>, hapiResponse: ReturnType<typeof httpResponseToHapiResponse>) {
+		this.coinService      = coinService;
 		this.baseUrl          = baseUrl;
 		this.hapiErrorCatcher = hapiErrorCatcher;
 		this.hapiResponse     = hapiResponse;
+		this.apiKey           = apiKey;
 	}
 
 	public register(server: hapi.Server): void {
 		server.route([
-			this.getCoinByName(this.baseUrl, this.hapiErrorCatcher, this.hapiResponse),
+			this.getLatestCoinsListings(this.baseUrl, this.apiKey, this.hapiErrorCatcher, this.hapiResponse),
 		]);
 	}
 
-	private getCoinByName(baseUrL: string, hapiErrorCatcher: ReturnType<typeof catchHapiRouteError>, hapiResponse: ReturnType<typeof httpResponseToHapiResponse>): ServerRoute {
+	private getLatestCoinsListings(baseUrL: string, apiKey: string, hapiErrorCatcher: ReturnType<typeof catchHapiRouteError>, hapiResponse: ReturnType<typeof httpResponseToHapiResponse>): ServerRoute {
 		return {
 			method:  'GET',
-			path:    `${baseUrL}/coin/{coinName}`,
+			path:    `${baseUrL}/coins/listings/latest`,
 			handler: hapiErrorCatcher(async (request, h) => {
-				console.log('test');
+				const response = await axios({
+					method:  'GET',
+					url:     'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+					headers: {
+						Accept:              'application/json',
+						'X-CMC_PRO_API_KEY': apiKey,
+					},
+					params:  {
+						start:   1,
+						limit:   200,
+						convert: 'EUR',
+					},
+				});
 
-				const response = '' as any;
-
-				return hapiResponse(response, h);
+				return hapiResponse({ statusCode: response.status, body: response.data }, h);
 			}),
 			options: {
-				description: 'Get a coin',
-				notes: 'Returns a coin',
-				tags: ['api', 'coin'],
+				description: 'Get latest listings',
+				notes:       'Returns latest listings',
+				tags:        ['api', 'listings'],
 				// validate: {
 				// 	payload: {
 				// 		id: joi.string().required(),
 				// 	},
 				// },
-				plugins: {
+				plugins:     {
 					'hapi-swagger': {
 						responses: {
 							200: {
@@ -50,9 +66,6 @@ export class CoinRoutes {
 							},
 							400: {
 								description: 'Bad Request',
-							},
-							404: {
-								description: 'Not found',
 							},
 							500: {
 								description: 'Internal Server Error',

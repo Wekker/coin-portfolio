@@ -4,4 +4,5 @@ export class Config {
 	public static readonly LOG_LEVEL: string = process.env.logLevel || 'info';
 	public static readonly PORT: string      = process.env.port || '3000';
 	public static readonly BASE_URL: string  = process.env.baseUrl || '/v1/coin-portfolio-api';
+	public static readonly API_KEY: string   = process.env.apiKey || '';
 }

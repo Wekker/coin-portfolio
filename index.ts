@@ -9,6 +9,7 @@ import { LoggerFactory } from './src/LoggerFactory';
 		fqdn:    Config.FQDN,
 		port:    Config.PORT,
 		baseUrl: Config.BASE_URL,
+		apiKey:  Config.API_KEY,
 	};
 
 	const logger = new LoggerFactory().createLogger();

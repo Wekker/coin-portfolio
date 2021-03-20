@@ -1,6 +1,7 @@
 {
   "name": "coin-portfolio",
   "version": "1.0.0",
+  "repository": "https://github.com/Wekker/coin-portfolio",
   "description": "coin-portfolio",
   "main": "./dist/index.js",
   "scripts": {
@@ -23,6 +24,7 @@
     "@types/hapi__joi": "^17.1.6",
     "@types/hapi__vision": "^5.5.2",
     "@types/node": "^14.14.35",
+    "axios": "^0.21.1",
     "hapi-swagger": "^14.1.0",
     "typescript": "^4.2.3",
     "winston": "^3.3.3"

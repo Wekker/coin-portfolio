@@ -1,6 +1,8 @@
 import { catchHapiRouteError, httpResponseToHapiResponse } from './httpResponse';
 import * as packageJSON from '../package.json';
 import { CoinRoutes } from './CoinRoutes';
+import { CoinController } from './CoinController';
+import { CoinService } from './CoinService';
 
 import { Logger } from 'winston';
 import * as hapi from '@hapi/hapi';
@@ -8,13 +10,6 @@ import boom from '@hapi/boom';
 import inert from '@hapi/inert';
 import vision from '@hapi/vision';
 import * as hapiSwagger from 'hapi-swagger';
-
-export interface CoinPortfolioApiConfig {
-	server: string;
-	fqdn: string;
-	port: string;
-	baseUrl: string;
-}
 
 export class CoinPortfolioApi {
 	private logger: Logger;
@@ -32,8 +27,8 @@ export class CoinPortfolioApi {
 	public async start(): Promise<hapi.Server> {
 		const server = new hapi.Server({
 			address: '0.0.0.0',
-			port: this.config.port,
-			routes: {
+			port:    this.config.port,
+			routes:  {
 				validate: {
 					failAction: (request, h, error) => {
 						if (error) {
@@ -48,17 +43,17 @@ export class CoinPortfolioApi {
 
 		await server.register([inert, vision]);
 		await server.register([{
-			plugin: hapiSwagger,
+			plugin:  hapiSwagger,
 			options: {
-				info: {
-					'title': packageJSON.name,
+				info:              {
+					'title':   packageJSON.name,
 					'version': packageJSON.version,
 				},
-				grouping: 'tags',
-				host: this.config.fqdn,
-				jsonPath: `${this.config.baseUrl}/swagger.json`,
+				grouping:          'tags',
+				host:              this.config.fqdn,
+				jsonPath:          `${this.config.baseUrl}/swagger.json`,
 				documentationPath: `${this.config.baseUrl}/documentation`,
-				swaggerUIPath: `${this.config.baseUrl}/swaggerui`,
+				swaggerUIPath:     `${this.config.baseUrl}/swaggerui`,
 			},
 		}]);
 
@@ -72,8 +67,16 @@ export class CoinPortfolioApi {
 			throw error;
 		}
 
-		await new CoinRoutes(this.config.baseUrl, this.hapiErrorCatcher, this.hapiResponse).register(server);
+		await new CoinRoutes(new CoinController(new CoinService()), this.config.baseUrl, this.config.apiKey, this.hapiErrorCatcher, this.hapiResponse).register(server);
 
 		return server;
 	}
+}
+
+export interface CoinPortfolioApiConfig {
+	server: string;
+	fqdn: string;
+	port: string;
+	baseUrl: string;
+	apiKey: string;
 }

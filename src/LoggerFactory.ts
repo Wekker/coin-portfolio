@@ -12,7 +12,7 @@ export class LoggerFactory {
 				format.splat(),
 				format.json(),
 			),
-			defaultMeta: { service: 'CoinPortFolio' },
+			defaultMeta: { service: 'CoinPortfolio' },
 			transports: [
 				new transports.File({ filename: 'error.log', level: 'info' }),
 			],
