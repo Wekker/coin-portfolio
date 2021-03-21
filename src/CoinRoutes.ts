@@ -2,37 +2,37 @@ import * as hapi from '@hapi/hapi';
 import { ServerRoute } from '@hapi/hapi';
 import joi from '@hapi/joi';
 
-import { catchHapiRouteError, httpResponseToHapiResponse } from './httpResponse';
+import { getCatchHapiRouteErrorFunction, getHapiResponseFunction } from './httpResponse';
 import { CoinController } from './CoinController';
 
 export class CoinRoutes {
 
 	private readonly coinController: CoinController;
 	private readonly baseUrl: string;
-	private readonly hapiErrorCatcher: ReturnType<typeof catchHapiRouteError>;
-	private readonly hapiResponse: ReturnType<typeof httpResponseToHapiResponse>;
+	private readonly hapiErrorCatcher: ReturnType<typeof getCatchHapiRouteErrorFunction>;
+	private readonly toHapiResponse: ReturnType<typeof getHapiResponseFunction>;
 
-	public constructor(coinController: CoinController, baseUrl: string, hapiErrorCatcher: ReturnType<typeof catchHapiRouteError>, hapiResponse: ReturnType<typeof httpResponseToHapiResponse>) {
+	public constructor(coinController: CoinController, baseUrl: string, hapiErrorCatcher: ReturnType<typeof getCatchHapiRouteErrorFunction>, toHapiResponse: ReturnType<typeof getHapiResponseFunction>) {
 		this.coinController   = coinController;
 		this.hapiErrorCatcher = hapiErrorCatcher;
-		this.hapiResponse     = hapiResponse;
+		this.toHapiResponse   = toHapiResponse;
 		this.baseUrl          = baseUrl;
 	}
 
 	public register(server: hapi.Server): void {
 		server.route([
-			this.getLatestCoinListings(this.baseUrl, this.hapiErrorCatcher, this.hapiResponse),
+			this.getLatestCoinListings(this.baseUrl, this.hapiErrorCatcher, this.toHapiResponse),
 		]);
 	}
 
-	private getLatestCoinListings(baseUrL: string, hapiErrorCatcher: ReturnType<typeof catchHapiRouteError>, hapiResponse: ReturnType<typeof httpResponseToHapiResponse>): ServerRoute {
+	private getLatestCoinListings(baseUrL: string, hapiErrorCatcher: ReturnType<typeof getCatchHapiRouteErrorFunction>, toHapiResponse: ReturnType<typeof getHapiResponseFunction>): ServerRoute {
 		return {
 			method:  'GET',
 			path:    `${baseUrL}/coins/listings/latest`,
 			handler: hapiErrorCatcher(async (request, h) => {
 				const response = await this.coinController.getLatestCoinListings();
 
-				return hapiResponse({ statusCode: response.status, body: response.data }, h);
+				return toHapiResponse({ statusCode: response.status, body: response.data }, h);
 			}),
 			options: {
 				description: 'Get latest listings',

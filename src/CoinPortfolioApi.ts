@@ -5,7 +5,7 @@ import inert from '@hapi/inert';
 import vision from '@hapi/vision';
 import * as hapiSwagger from 'hapi-swagger';
 
-import { catchHapiRouteError, httpResponseToHapiResponse } from './httpResponse';
+import { getCatchHapiRouteErrorFunction, getHapiResponseFunction } from './httpResponse';
 import * as packageJSON from '../package.json';
 import { CoinRoutes } from './CoinRoutes';
 import { CoinController } from './CoinController';
@@ -14,14 +14,14 @@ import { CoinService } from './CoinService';
 export class CoinPortfolioApi {
 	private logger: Logger;
 	private config: CoinPortfolioApiConfig;
-	private hapiResponse: ReturnType<typeof httpResponseToHapiResponse>;
-	private hapiErrorCatcher: ReturnType<typeof catchHapiRouteError>;
+	private toHapiResponse: ReturnType<typeof getHapiResponseFunction>;
+	private hapiErrorCatcher: ReturnType<typeof getCatchHapiRouteErrorFunction>;
 
 	public constructor(config: CoinPortfolioApiConfig, logger: Logger) {
 		this.logger           = logger;
 		this.config           = config;
-		this.hapiResponse     = httpResponseToHapiResponse();
-		this.hapiErrorCatcher = catchHapiRouteError(logger);
+		this.toHapiResponse   = getHapiResponseFunction();
+		this.hapiErrorCatcher = getCatchHapiRouteErrorFunction(logger);
 	}
 
 	public async start(): Promise<hapi.Server> {
@@ -67,7 +67,7 @@ export class CoinPortfolioApi {
 			throw error;
 		}
 
-		await new CoinRoutes(new CoinController(new CoinService(this.config.cmcBaseUrl, this.config.apiKey)), this.config.baseUrl, this.hapiErrorCatcher, this.hapiResponse).register(server);
+		await new CoinRoutes(new CoinController(new CoinService(this.config.cmcBaseUrl, this.config.apiKey)), this.config.baseUrl, this.hapiErrorCatcher, this.toHapiResponse).register(server);
 
 		return server;
 	}
