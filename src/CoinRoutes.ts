@@ -1,9 +1,9 @@
-import { catchHapiRouteError, httpResponseToHapiResponse } from './httpResponse';
-import { CoinController } from './CoinController';
-
 import * as hapi from '@hapi/hapi';
 import { ServerRoute } from '@hapi/hapi';
-import * as joi from '@hapi/joi';
+import joi from '@hapi/joi';
+
+import { catchHapiRouteError, httpResponseToHapiResponse } from './httpResponse';
+import { CoinController } from './CoinController';
 
 export class CoinRoutes {
 
@@ -38,11 +38,6 @@ export class CoinRoutes {
 				description: 'Get latest listings',
 				notes:       'Returns latest listings',
 				tags:        ['api', 'listings'],
-				// validate: {
-				// 	payload: {
-				// 		id: joi.string().required(),
-				// 	},
-				// },
 				plugins:     {
 					'hapi-swagger': {
 						responses: {

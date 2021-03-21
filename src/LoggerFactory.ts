@@ -1,10 +1,10 @@
 import { createLogger, transports, format, Logger } from 'winston';
 
 export class LoggerFactory {
-	public createLogger(): Logger {
+	public createLogger(loglevel: string): Logger {
 		return createLogger({
-			level: 'info',
-			format: format.combine(
+			level:       loglevel,
+			format:      format.combine(
 				format.timestamp({
 					format: 'YYYY-MM-DD HH:mm:ss',
 				}),
@@ -13,8 +13,8 @@ export class LoggerFactory {
 				format.json(),
 			),
 			defaultMeta: { service: 'CoinPortfolio' },
-			transports: [
-				new transports.File({ filename: 'error.log', level: 'info' }),
+			transports:  [
+				new transports.File({ filename: 'error.log', level: loglevel }),
 			],
 		});
 	}

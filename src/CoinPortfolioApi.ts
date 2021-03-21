@@ -1,15 +1,15 @@
-import { catchHapiRouteError, httpResponseToHapiResponse } from './httpResponse';
-import * as packageJSON from '../package.json';
-import { CoinRoutes } from './CoinRoutes';
-import { CoinController } from './CoinController';
-import { CoinService } from './CoinService';
-
 import { Logger } from 'winston';
 import * as hapi from '@hapi/hapi';
 import boom from '@hapi/boom';
 import inert from '@hapi/inert';
 import vision from '@hapi/vision';
 import * as hapiSwagger from 'hapi-swagger';
+
+import { catchHapiRouteError, httpResponseToHapiResponse } from './httpResponse';
+import * as packageJSON from '../package.json';
+import { CoinRoutes } from './CoinRoutes';
+import { CoinController } from './CoinController';
+import { CoinService } from './CoinService';
 
 export class CoinPortfolioApi {
 	private logger: Logger;
@@ -76,6 +76,7 @@ export class CoinPortfolioApi {
 export interface CoinPortfolioApiConfig {
 	server: string;
 	fqdn: string;
+	logLevel: string;
 	port: string;
 	baseUrl: string;
 	apiKey: string;

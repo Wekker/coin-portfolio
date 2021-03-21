@@ -18,7 +18,7 @@ export class CoinService {
 	getLatestCoinListings(): AxiosPromise {
 		return axios({
 			method:  'GET',
-			url:     this.baseUrl,
+			url:     `${this.baseUrl}/cryptocurrency/listings/latest`,
 			headers: this.headers,
 			params:  {
 				start:   1,
