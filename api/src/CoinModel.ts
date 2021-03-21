@@ -1,5 +1,5 @@
 export class CoinModel {
-	public id: number;
+	id: number;
 	name: string;
 	symbol: string;
 	slug: string;
