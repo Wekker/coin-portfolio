@@ -6,7 +6,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "start": "npm run clean && npm run build && npm run sprint",
-    "sprint": "node $NODE_DEBUG_OPTION dist/index.js",
+    "sprint": "node $NODE_DEBUG_OPTION ./dist/index.js",
     "build": "tsc",
     "clean": "rimraf ./dist/"
   },
