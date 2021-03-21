@@ -1,15 +1,9 @@
-<div class="flexbox-parent">
-  <div layout="row" align="center">
-<!--    <div style="text-align: center">-->
-      <table mat-table [dataSource]="coinList" class="mat-elevation-z8">
-        <ng-container [matColumnDef]="columnName" *ngFor="let columnName of tableColumns;">
-          <th mat-header-cell *matHeaderCellDef> {{ columnName }}</th>
-          <td mat-cell *matCellDef="let element"> {{ element[columnName]}} </td>
-        </ng-container>
+<table mat-table [dataSource]="coinList" class="mat-elevation-z8" align="center">
+  <ng-container [matColumnDef]="columnName" *ngFor="let columnName of tableColumnNames;">
+    <th mat-header-cell *matHeaderCellDef> {{ columnName }} </th>
+    <td mat-cell *matCellDef="let element"> {{ getCoinDisplayValue(element, columnName) }} </td>
+  </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
-      </table>
-<!--    </div>-->
-  </div>
-</div>
+  <tr mat-header-row *matHeaderRowDef="tableColumnNames"></tr>
+  <tr mat-row *matRowDef="let row; columns: tableColumnNames;"></tr>
+</table>

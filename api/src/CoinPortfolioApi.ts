@@ -29,6 +29,9 @@ export class CoinPortfolioApi {
 			address: '0.0.0.0',
 			port:    this.config.port,
 			routes:  {
+				cors:     {
+					origin: ['*'],
+				},
 				validate: {
 					failAction: (request, h, error) => {
 						if (error) {

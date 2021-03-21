@@ -32,7 +32,7 @@ export class CoinRoutes {
 			handler: hapiErrorCatcher(async (request, h) => {
 				const response = await this.coinController.getLatestCoinListings();
 
-				return toHapiResponse({ statusCode: response.status, body: response.data }, h);
+				return toHapiResponse({ statusCode: response.status, body: response.data.data }, h);
 			}),
 			options: {
 				description: 'Get latest listings',
