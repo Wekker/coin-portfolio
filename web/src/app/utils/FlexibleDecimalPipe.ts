@@ -13,15 +13,17 @@ export class FlexibleDecimalPipe extends DecimalPipe {
     if (typeof value === 'string' && isNaN(number)) return value;
 
     if (digitsInfo === null || typeof digitsInfo === 'undefined') {
-        digitsInfo = `1.2-${this.getPreferredDecimals(number)}`
+      const preferredDecimal = this.getPreferredDecimal(number);
+
+      digitsInfo = `1.${preferredDecimal}-${preferredDecimal}`;
     }
 
     return super.transform(value, digitsInfo, locale);
   }
 
-  getPreferredDecimals(value: number, accumulatedValue: number = 2): number {
+  getPreferredDecimal(value: number, accumulatedValue: number = 2): number {
     if (value >= 10 || accumulatedValue === 8) return accumulatedValue;
 
-    return this.getPreferredDecimals(value * 10, accumulatedValue + 1);
+    return this.getPreferredDecimal(value * 10, accumulatedValue + 1);
   }
 }
