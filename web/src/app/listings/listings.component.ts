@@ -9,8 +9,19 @@ import { CoinModel } from '../models/CoinModel';
 })
 export class ListingsComponent implements OnInit {
 
+  element: CoinModel;
   coinList: CoinModel[];
-  tableColumnNames: string[] = ['name', 'symbol', 'price', 'percent_change_1h', 'percent_change_24h', 'percent_change_7d', 'percent_change_30d', 'percent_change_60d', 'percent_change_90d', 'last_updated'];
+  headerName                 = {
+    symbol:           'symbol',
+    name:             'name',
+    price:            'price',
+    twentyFourChange: '\u0025 24h',
+    sevenDayChange:   '\u0025 7d',
+    thirtyDayChange:  '\u0025 30d',
+    ninetyDayChange:  '\u0025 90d',
+  };
+  headerNames                = Object.values(this.headerName);
+  digitsInfoPercentageChange = '1.2-2';
   selectedCurrency: 'EUR'    = 'EUR';
 
   constructor(private coinService: CoinService) {
@@ -23,12 +34,15 @@ export class ListingsComponent implements OnInit {
   getLatestCoinListings(): void {
     this.coinService.getLatestCoinListings().subscribe((coins) => {
       this.coinList = coins;
-      console.log('test', coins);
     });
   }
 
   getCoinDisplayValue(coinModel: { [index: string]: any }, name: string): string {
     return (typeof coinModel[name] === 'undefined') ? coinModel.quote[this.selectedCurrency][name] : coinModel[name];
+  }
+
+  getTypedElement(element: { name: string }): CoinModel {
+    return element as CoinModel;
   }
 }
 

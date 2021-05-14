@@ -1,9 +1,44 @@
 <table mat-table [dataSource]="coinList" class="mat-elevation-z8" align="center">
-  <ng-container [matColumnDef]="columnName" *ngFor="let columnName of tableColumnNames;">
-    <th mat-header-cell *matHeaderCellDef> {{ columnName }} </th>
-    <td mat-cell *matCellDef="let element"> {{ getCoinDisplayValue(element, columnName) }} </td>
+  <ng-container [matColumnDef]="headerName.symbol">
+    <th mat-header-cell *matHeaderCellDef> {{ headerName.symbol }} </th>
+    <td mat-cell *matCellDef="let element"> {{ getTypedElement(element).symbol }} </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="tableColumnNames"></tr>
-  <tr mat-row *matRowDef="let row; columns: tableColumnNames;"></tr>
+  <ng-container [matColumnDef]="headerName.name">
+    <th mat-header-cell *matHeaderCellDef> {{ headerName.name }} </th>
+    <td mat-cell *matCellDef="let element"> {{ getTypedElement(element).name }} </td>
+  </ng-container>
+
+  <ng-container [matColumnDef]="headerName.price">
+    <th mat-header-cell *matHeaderCellDef> {{ headerName.price }} </th>
+    <td mat-cell
+        *matCellDef="let element"> {{ getTypedElement(element).quote.EUR.price | flexibleDecimalPipe }} </td>
+  </ng-container>
+
+  <ng-container [matColumnDef]="headerName.twentyFourChange">
+    <th mat-header-cell *matHeaderCellDef> {{ headerName.twentyFourChange }} </th>
+    <td mat-cell
+        *matCellDef="let element"> {{ getTypedElement(element).quote.EUR.percent_change_24h | flexibleDecimalPipe: digitsInfoPercentageChange }} </td>
+  </ng-container>
+
+  <ng-container [matColumnDef]="headerName.sevenDayChange">
+    <th mat-header-cell *matHeaderCellDef> {{ headerName.sevenDayChange }} </th>
+    <td mat-cell
+        *matCellDef="let element"> {{ getTypedElement(element).quote.EUR.percent_change_7d | flexibleDecimalPipe: digitsInfoPercentageChange }} </td>
+  </ng-container>
+
+  <ng-container [matColumnDef]="headerName.thirtyDayChange">
+    <th mat-header-cell *matHeaderCellDef> {{ headerName.thirtyDayChange }} </th>
+    <td mat-cell
+        *matCellDef="let element"> {{ getTypedElement(element).quote.EUR.percent_change_30d | flexibleDecimalPipe: digitsInfoPercentageChange }} </td>
+  </ng-container>
+
+  <ng-container [matColumnDef]="headerName.ninetyDayChange">
+    <th mat-header-cell *matHeaderCellDef> {{ headerName.ninetyDayChange }} </th>
+    <td mat-cell
+        *matCellDef="let element"> {{ getTypedElement(element).quote.EUR.percent_change_90d | flexibleDecimalPipe: digitsInfoPercentageChange }} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="headerNames"></tr>
+  <tr mat-row *matRowDef="let row; columns: headerNames;"></tr>
 </table>

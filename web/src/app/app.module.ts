@@ -8,10 +8,12 @@ import { ListingsComponent } from './listings/listings.component';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { FlexibleDecimalPipe } from './utils/FlexibleDecimalPipe';
 
 @NgModule({
   declarations: [
     AppComponent,
+    FlexibleDecimalPipe,
     ListingsComponent
   ],
   imports: [

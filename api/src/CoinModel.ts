@@ -1,4 +1,4 @@
-export class CoinModel {
+export interface CoinModel {
 	id: number;
 	name: string;
 	symbol: string;
