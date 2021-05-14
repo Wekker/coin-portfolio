@@ -14,19 +14,19 @@ export class FlexibleDecimalPipe extends DecimalPipe {
 
     if (digitsInfo === null || typeof digitsInfo === 'undefined') {
       if (number >= 10 || number <= -10) {
-        digitsInfo = '1.0-2';
+        digitsInfo = '1.2-2';
       } else if (number >= 1 || number <= -1) {
-        digitsInfo = '1.0-3';
+        digitsInfo = '1.3-3';
       } else if (number >= 0.1 || number <= -0.1) {
-        digitsInfo = '1.0-4';
+        digitsInfo = '1.4-4';
       } else if (number >= 0.01 || number <= -0.01) {
-        digitsInfo = '1.0-5';
+        digitsInfo = '1.5-5';
       } else if (number >= 0.001 || number <= -0.001) {
-        digitsInfo = '1.0-6';
+        digitsInfo = '1.6-6';
       } else if (number >= 0.0001 || number <= -0.0001) {
-        digitsInfo = '1.0-7';
+        digitsInfo = '1.7-7';
       } else {
-        digitsInfo = '1.0-8';
+        digitsInfo = '1.8-8';
       }
     }
 
