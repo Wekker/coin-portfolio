@@ -32,4 +32,10 @@ export class FlexibleDecimalPipe extends DecimalPipe {
 
     return super.transform(value, digitsInfo, locale);
   }
+
+  getPreferredDecimals(value: number, accumulatedValue: number = 2): number {
+    if (value >= 10 || accumulatedValue === 8) return accumulatedValue;
+
+    return this.getPreferredDecimals(value * 10, accumulatedValue + 1);
+  }
 }
